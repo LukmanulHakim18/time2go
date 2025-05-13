@@ -19,6 +19,9 @@ var defaultConfig = map[string]interface{}{
 	"pubsub_credential":         "",
 	"pubsub_project_id":         "",
 	"pod_name":                  "unknown pod",
+
+	"worker_count": 10,
+	"queue_size":   100,
 }
 
 func LoadConfigMap() {
