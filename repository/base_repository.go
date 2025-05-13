@@ -1,6 +1,10 @@
 package repository
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/LukmanulHakim18/time2go/repository/repoiface"
+)
 
 type RepoConf interface {
 	Init(*Repository) error
@@ -36,4 +40,5 @@ func NewRepository(rf []RepoConf) (*Repository, error) {
 }
 
 type Repository struct {
+	Redis repoiface.Redis
 }

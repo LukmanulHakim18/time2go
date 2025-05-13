@@ -19,6 +19,12 @@ var defaultConfig = map[string]interface{}{
 	"pubsub_credential":         "",
 	"pubsub_project_id":         "",
 	"pod_name":                  "unknown pod",
+
+	"redis_host":         "",
+	"redis_port":         0,
+	"redis_password":     "",
+	"db_use":             5,
+	"check_healthy_repo": true,
 }
 
 func LoadConfigMap() {

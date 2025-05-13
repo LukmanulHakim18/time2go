@@ -11,6 +11,6 @@ service EventScheduler {
 message EmptyRequest{}
 
 message DefaultResponse {
-   string code = 1;
-   string message = 2;
+  string code = 1;
+  string message = 2;
 }
