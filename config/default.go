@@ -14,6 +14,7 @@ var defaultConfig = map[string]interface{}{
 	"rest_port":     8000,
 	"log_level":     "info",
 	"log_directory": "",
+	"check_healthy_repo": true,
 
 	"pubsub_emulator_host_port": "",
 	"pubsub_credential":         "",
@@ -24,7 +25,9 @@ var defaultConfig = map[string]interface{}{
 	"redis_port":         0,
 	"redis_password":     "",
 	"db_use":             5,
-	"check_healthy_repo": true,
+	
+	"worker_count": 10,
+	"queue_size":   100,
 }
 
 func LoadConfigMap() {

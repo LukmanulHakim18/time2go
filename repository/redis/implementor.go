@@ -2,7 +2,6 @@ package redis
 
 import (
 	"context"
-	"fmt"
 	"strconv"
 
 	cRedis "github.com/LukmanulHakim18/core/redis"
@@ -28,11 +27,10 @@ func (c *RedisClient) IncKeyIndex(ctx context.Context) {
 	}
 }
 
-func (c *RedisClient) ListenEventInDb(ctx context.Context, dbNumb int) (*redis.PubSub, error) {
-	client, ok := c.cliMap[dbNumb]
-	if !ok {
-		return nil, fmt.Errorf("error select db")
+func (c *RedisClient) GetListOfListener(ctx context.Context) map[int]*redis.PubSub {
+	mapOfListener := map[int]*redis.PubSub{}
+	for k, cli := range c.cliMap {
+		mapOfListener[k] = cli.ListenEvent(ctx, strconv.Itoa(k), cRedis.EventExpired)
 	}
-	pubsub := client.ListenEvent(ctx, strconv.Itoa(dbNumb), cRedis.EventExpired)
-	return pubsub, nil
+	return mapOfListener
 }
