@@ -2,9 +2,11 @@ package redis
 
 import (
 	"context"
+	"encoding/json"
 	"strconv"
 
 	cRedis "github.com/LukmanulHakim18/core/redis"
+	"github.com/LukmanulHakim18/time2go/model"
 	"github.com/go-redis/redis/v8"
 )
 
@@ -13,6 +15,33 @@ type RedisClient struct {
 	maxDbUse int
 	cliIndex cRedis.ClientRedis
 	cliMap   map[int]cRedis.ClientRedis
+}
+
+// DeleteFromDb implements repoiface.Redis.
+func (c *RedisClient) DeleteFromDb(ctx context.Context, dbFrom int, dataKey string) error {
+	panic("unimplemented")
+}
+
+// LockEventFromDb implements repoiface.Redis.
+func (c *RedisClient) LockEventFromDb(ctx context.Context, dbFrom int, dataKey string) error {
+	panic("unimplemented")
+}
+
+// GetDataFromDb implements repoiface.Redis.
+func (c *RedisClient) GetDataFromDb(ctx context.Context, dbFrom int, dataKey string) (result model.Event, err error) {
+	result = model.Event{}
+	cli, ok := c.cliMap[dbFrom]
+	if !ok {
+	}
+	resultByte, err := cli.Client().Get(ctx, dataKey).Bytes()
+	if err != nil {
+		return result, err
+	}
+	err = json.Unmarshal(resultByte, &result)
+	if err != nil {
+		return result, err
+	}
+	return result, nil
 }
 
 func (c *RedisClient) HealthCheck(ctx context.Context) error {

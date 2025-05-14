@@ -2,11 +2,12 @@ package eventlistener
 
 import (
 	"context"
-	"fmt"
 	"log"
-	"strings"
 	"time"
 
+	cLog "github.com/LukmanulHakim18/core/logger"
+	"github.com/LukmanulHakim18/time2go/config/logger"
+	"github.com/LukmanulHakim18/time2go/util"
 	"github.com/go-redis/redis/v8"
 )
 
@@ -28,21 +29,24 @@ func (rl *EventListener) listenDB(ctx context.Context, db int, pubsub *redis.Pub
 				continue
 			}
 			key := msg.Payload
-			if strings.HasPrefix(key, rl.cfg.Prefix) && strings.HasSuffix(key, rl.cfg.Suffix) {
-				id := strings.TrimSuffix(strings.TrimPrefix(key, rl.cfg.Prefix), rl.cfg.Suffix)
-				dataKey := fmt.Sprintf("%s%s:data", rl.cfg.Prefix, id)
+			if util.CheckIsEventKey(key) {
 
-				data, err := rdb.Get(ctx, dataKey).Result()
+				dataKey := util.GetDataKeyFromEventKey(key)
+				event, err := rl.repository.Redis.GetDataFromDb(ctx, db, dataKey)
 				if err == redis.Nil {
-					log.Printf("[Redis DB %d] Data kosong untuk key: %s", db, dataKey)
+					logger.GetLogger().Error(" Data kosong", cLog.Field{
+						Key:   "dataKey",
+						Value: dataKey,
+					})
 					continue
 				} else if err != nil {
 					log.Printf("[Redis DB %d] Gagal GET key %s: %v", db, dataKey, err)
 					continue
 				}
-
-				go rl.handler(ctx, id, data)
-				_ = rdb.Del(ctx, dataKey).Err()
+				// locking
+				 = rl.repository.Redis.LockEventFromDb(ctx, db, dataKey)
+				go rl.handler.SendEvent(event)
+				_ = rl.repository.Redis.DeleteFromDb(ctx, db, dataKey)
 			}
 		case <-time.After(5 * time.Second):
 			// prevent goroutine leak on blocking recv
