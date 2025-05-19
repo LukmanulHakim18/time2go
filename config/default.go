@@ -28,6 +28,8 @@ var defaultConfig = map[string]interface{}{
 	
 	"worker_count": 10,
 	"queue_size":   100,
+
+	"retry_time_delay": "5s",
 }
 
 func LoadConfigMap() {

@@ -7,6 +7,7 @@ import (
 
 	cLog "github.com/LukmanulHakim18/core/logger"
 	"github.com/LukmanulHakim18/time2go/config/logger"
+	"github.com/LukmanulHakim18/time2go/model"
 	"github.com/LukmanulHakim18/time2go/util"
 	"github.com/go-redis/redis/v8"
 )
@@ -43,13 +44,33 @@ func (rl *EventListener) listenDB(ctx context.Context, db int, pubsub *redis.Pub
 					log.Printf("[Redis DB %d] Gagal GET key %s: %v", db, dataKey, err)
 					continue
 				}
-				// locking
-				 = rl.repository.Redis.LockEventFromDb(ctx, db, dataKey)
-				go rl.handler.SendEvent(event)
-				_ = rl.repository.Redis.DeleteFromDb(ctx, db, dataKey)
+				go rl.processEvent(ctx, db, event)
 			}
 		case <-time.After(5 * time.Second):
 			// prevent goroutine leak on blocking recv
 		}
 	}
+}
+
+func (rl *EventListener) processEvent(ctx context.Context, dbFrom int, event model.Event) {
+	logData := map[string]any{
+		"method": "processEvent",
+		"event":  event,
+	}
+	dataKey := ""
+	// lock event
+
+	rl.repository.Redis.LockEventFromDb(ctx, dbFrom, dataKey)
+	logger.GetLogger().Debug("process_event", cLog.Field{Key: "event", Value: event})
+	// execute event
+
+	resp, err := rl.repository.HttpCaller.ExecuteEvent(ctx, event.RequestConfig)
+	logData["resp"] = resp
+	if err != nil {
+		rl.HandlingErrorProcessEvent(ctx, event)
+	}
+	logger.GetLogger().Info("success", cLog.ConvertMapToFields(logData)...)
+
+	// handling process retry
+	_ = rl.repository.Redis.DeleteFromDb(ctx, dbFrom, dataKey)
 }

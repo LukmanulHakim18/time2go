@@ -1,6 +1,10 @@
 package model
 
-import "time"
+import (
+	"time"
+
+	"github.com/LukmanulHakim18/time2go/util"
+)
 
 type Event struct {
 	ClientName    string            `json:"client_name"`
@@ -16,7 +20,23 @@ type Event struct {
 type RetryPolicyType string
 
 type RetryPolicy struct {
-	Type        RetryPolicyType `json:"type"`         // e.g. "fixed", "exponential",
-	RetryCount  int             `json:"retry_count"`  // sudah berapa kali dicoba
-	MaxAttempts int             `json:"max_attempts"` // batas maksimal retry
+	Type         RetryPolicyType `json:"type"`         // e.g. "fixed", "exponential",
+	RetryCount   int             `json:"retry_count"`  // sudah berapa kali dicoba
+	MaxAttempts  int             `json:"max_attempts"` // batas maksimal retry
+	AttemptCount int             `json:"max_attempts"` // batas maksimal retry
+}
+
+// func event
+
+func (e *Event) GetIndexKey() string {
+	return util.CreateEventKey(util.KEY_TYPE_INDEX, e.ClientName, e.EventName, e.EventID)
+}
+func (e *Event) GetTriggerKey() string {
+	return util.CreateEventKey(util.KEY_TYPE_TRIGGER, e.ClientName, e.EventName, e.EventID)
+}
+func (e *Event) GetDataKey() string {
+	return util.CreateEventKey(util.KEY_TYPE_DATA, e.ClientName, e.EventName, e.EventID)
+}
+func (e *Event) GetLockKey() string {
+	return util.CreateEventKey(util.KEY_TYPE_LOCK, e.ClientName, e.EventName, e.EventID)
 }

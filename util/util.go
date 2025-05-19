@@ -13,6 +13,7 @@ const (
 	KEY_TYPE_INDEX   KeyType = "index"
 	KEY_TYPE_TRIGGER KeyType = "trigger"
 	KEY_TYPE_DATA    KeyType = "data"
+	KEY_TYPE_LOCK    KeyType = "lock"
 )
 
 // time2go:{keyType}:clientName:eventName:eventId-14

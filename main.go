@@ -7,7 +7,6 @@ import (
 	"github.com/LukmanulHakim18/time2go/config"
 	"github.com/LukmanulHakim18/time2go/config/logger"
 	"github.com/LukmanulHakim18/time2go/config/repository"
-	"github.com/LukmanulHakim18/time2go/pkg/eventworker"
 	"github.com/LukmanulHakim18/time2go/server"
 	"github.com/LukmanulHakim18/time2go/usecase"
 	"github.com/LukmanulHakim18/time2go/util"
@@ -36,13 +35,6 @@ func main() {
 	restServer := server.RunRESTServer(ctx, usecase)
 	servers["rest"] = func(ctx context.Context) error {
 		return restServer.Shutdown(ctx)
-	}
-
-	workerPool := eventworker.NewWorkerPool(repository.GetRepo())
-	workerPool.Start(eventworker.HandleProcess)
-	servers["workerPool"] = func(ctx context.Context) error {
-		workerPool.Shutdown()
-		return nil
 	}
 
 	wait := util.GracefulShutdown(ctx, 5*time.Second, servers)

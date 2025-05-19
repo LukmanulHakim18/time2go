@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"strconv"
+	"time"
 
 	cRedis "github.com/LukmanulHakim18/core/redis"
 	"github.com/LukmanulHakim18/time2go/model"
@@ -15,6 +16,11 @@ type RedisClient struct {
 	maxDbUse int
 	cliIndex cRedis.ClientRedis
 	cliMap   map[int]cRedis.ClientRedis
+}
+
+// SetEvent implements repoiface.Redis.
+func (c *RedisClient) SetEvent(ctx context.Context, event model.Event, indexKey string, triggerKey string, dataKey string, releaseEvent time.Duration) error {
+	panic("unimplemented")
 }
 
 // DeleteFromDb implements repoiface.Redis.

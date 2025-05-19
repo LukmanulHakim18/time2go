@@ -4,21 +4,18 @@ import (
 	"context"
 	"sync"
 
-	"github.com/LukmanulHakim18/time2go/pkg/eventworker"
 	"github.com/LukmanulHakim18/time2go/repository"
 )
 
 type EventListener struct {
 	repository *repository.Repository
-	handler    *eventworker.WorkerPool
 	cancel     context.CancelFunc
 	wg         sync.WaitGroup
 }
 
-func NewEventListener(repo *repository.Repository, eventPool *eventworker.WorkerPool) *EventListener {
+func NewEventListener(repo *repository.Repository) *EventListener {
 	return &EventListener{
 		repository: repo,
-		handler:    eventPool,
 	}
 }
 
