@@ -7,6 +7,7 @@ import (
 	"github.com/LukmanulHakim18/time2go/config"
 	"github.com/LukmanulHakim18/time2go/config/logger"
 	"github.com/LukmanulHakim18/time2go/config/repository"
+	eventlistener "github.com/LukmanulHakim18/time2go/pkg/eventListener"
 	"github.com/LukmanulHakim18/time2go/server"
 	"github.com/LukmanulHakim18/time2go/usecase"
 	"github.com/LukmanulHakim18/time2go/util"
@@ -36,7 +37,13 @@ func main() {
 	servers["rest"] = func(ctx context.Context) error {
 		return restServer.Shutdown(ctx)
 	}
-
+	eListener := eventlistener.NewEventListener(repository.GetRepo())
+	eListener.Start(ctx)
+	servers["event-listener"] = func(ctx context.Context) error {
+		eListener.Stop()
+		return nil
+	}
+	eListener.Stop()
 	wait := util.GracefulShutdown(ctx, 5*time.Second, servers)
 	<-wait
 }

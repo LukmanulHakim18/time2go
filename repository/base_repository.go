@@ -40,6 +40,6 @@ func NewRepository(rf []RepoConf) (*Repository, error) {
 }
 
 type Repository struct {
-	Redis repoiface.Redis
-    HttpCaller repoiface.HttpCaller
+	Redis      repoiface.Redis
+	HttpCaller repoiface.HttpCaller
 }

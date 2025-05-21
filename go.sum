@@ -3,8 +3,8 @@ cloud.google.com/go v0.34.0/go.mod h1:aQUYkXzVsufM+DwF1aE+0xfcU+56JwCaLick0ClmMT
 git.bluebird.id/mybb-ms/aphrodite v1.9.11 h1:t+kz7nG10wY/DvvWXWLgFxnN6Tzo3CqnA57yHB+PYCM=
 git.bluebird.id/mybb-ms/aphrodite v1.9.11/go.mod h1:vteTaGzFn1SNqo0/fETCJhOTrGyvIxKPseE6UsYKqrM=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
-github.com/LukmanulHakim18/core v0.0.1 h1:oHOu9zKktw5tjVMhZZsqJtj0GcD1kQFmw86AaX2zoMs=
-github.com/LukmanulHakim18/core v0.0.1/go.mod h1:j1lKD0p13naoifuSZXIlsW0/JDiEhx6PEVdR/3IqXQM=
+github.com/LukmanulHakim18/core v0.0.3 h1:+P7uR0AK8nzh6pBat8L3R5sBwLnwW/wwhH831veV+UE=
+github.com/LukmanulHakim18/core v0.0.3/go.mod h1:j1lKD0p13naoifuSZXIlsW0/JDiEhx6PEVdR/3IqXQM=
 github.com/alecthomas/template v0.0.0-20160405071501-a0175ee3bccc/go.mod h1:LOuyumcjzFXgccqObfd/Ljyb9UuFJ6TxHnclSeseNhc=
 github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751/go.mod h1:LOuyumcjzFXgccqObfd/Ljyb9UuFJ6TxHnclSeseNhc=
 github.com/alecthomas/units v0.0.0-20151022065526-2efee857e7cf/go.mod h1:ybxpYRFXyAe+OPACYpWeL0wqObRcbAqCMya13uyzqw0=

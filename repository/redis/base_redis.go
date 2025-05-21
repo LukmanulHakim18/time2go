@@ -52,8 +52,7 @@ func (conf *RedisConfig) Init(r *repository.Repository) error {
 
 	// init db use for optimization
 	for i := 1; i <= conf.dbUse; i++ {
-		cli := cRedis.NewRedis(conf.host, conf.port, conf.password, 1)
-		redisClient.cliMap[i] = cli
+		redisClient.cliMap[i] = cRedis.NewRedis(conf.host, conf.port, conf.password, i)
 
 	}
 	if conf.checkHealth {

@@ -2,10 +2,9 @@ module github.com/LukmanulHakim18/time2go
 
 go 1.23.0
 
-
 require (
 	git.bluebird.id/mybb-ms/aphrodite v1.9.11
-	github.com/LukmanulHakim18/core v0.0.1
+	github.com/LukmanulHakim18/core v0.0.3
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/grpc-ecosystem/go-grpc-middleware/v2 v2.3.2
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.26.3
