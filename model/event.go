@@ -19,11 +19,16 @@ type Event struct {
 
 type RetryPolicyType string
 
+const (
+	RETRY_POLICY_TYPE_FIXED       RetryPolicyType = "FIXED"
+	RETRY_POLICY_TYPE_EXPONENTIAL RetryPolicyType = "EXPONENTIAL"
+)
+
 type RetryPolicy struct {
-	Type         RetryPolicyType `json:"type"`         // e.g. "fixed", "exponential",
-	RetryCount   int             `json:"retry_count"`  // sudah berapa kali dicoba
-	MaxAttempts  int             `json:"max_attempts"` // batas maksimal retry
-	AttemptCount int             `json:"max_attempts"` // batas maksimal retry
+	Type         RetryPolicyType `json:"type"`          // e.g. "fixed", "exponential",
+	RetryCount   int             `json:"retry_count"`   // sudah berapa kali dicoba
+	MaxAttempts  int             `json:"max_attempts"`  // batas maksimal retry
+	AttemptCount int             `json:"attempt_count"` // counter
 }
 
 // func event

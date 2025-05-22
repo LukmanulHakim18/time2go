@@ -11,6 +11,7 @@ import (
 
 type UseCaseContract interface {
 	HealthCheck(ctx context.Context, request *contract.EmptyRequest) (response *contract.DefaultResponse, err error) // (unary)
+	SetEvent(ctx context.Context, request *contract.Event) (response *contract.DefaultResponse, err error)           // (unary)
 }
 
 type transport struct {

@@ -20,6 +20,7 @@ const _ = grpc.SupportPackageIsVersion9
 
 const (
 	EventScheduler_HealthCheck_FullMethodName = "/time2go.EventScheduler/HealthCheck"
+	EventScheduler_SetEvent_FullMethodName    = "/time2go.EventScheduler/SetEvent"
 )
 
 // EventSchedulerClient is the client API for EventScheduler service.
@@ -29,6 +30,7 @@ const (
 // lib-type:"grpc-client"
 type EventSchedulerClient interface {
 	HealthCheck(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*DefaultResponse, error)
+	SetEvent(ctx context.Context, in *Event, opts ...grpc.CallOption) (*DefaultResponse, error)
 }
 
 type eventSchedulerClient struct {
@@ -49,6 +51,16 @@ func (c *eventSchedulerClient) HealthCheck(ctx context.Context, in *EmptyRequest
 	return out, nil
 }
 
+func (c *eventSchedulerClient) SetEvent(ctx context.Context, in *Event, opts ...grpc.CallOption) (*DefaultResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DefaultResponse)
+	err := c.cc.Invoke(ctx, EventScheduler_SetEvent_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // EventSchedulerServer is the server API for EventScheduler service.
 // All implementations must embed UnimplementedEventSchedulerServer
 // for forward compatibility.
@@ -56,6 +68,7 @@ func (c *eventSchedulerClient) HealthCheck(ctx context.Context, in *EmptyRequest
 // lib-type:"grpc-client"
 type EventSchedulerServer interface {
 	HealthCheck(context.Context, *EmptyRequest) (*DefaultResponse, error)
+	SetEvent(context.Context, *Event) (*DefaultResponse, error)
 	mustEmbedUnimplementedEventSchedulerServer()
 }
 
@@ -68,6 +81,9 @@ type UnimplementedEventSchedulerServer struct{}
 
 func (UnimplementedEventSchedulerServer) HealthCheck(context.Context, *EmptyRequest) (*DefaultResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method HealthCheck not implemented")
+}
+func (UnimplementedEventSchedulerServer) SetEvent(context.Context, *Event) (*DefaultResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SetEvent not implemented")
 }
 func (UnimplementedEventSchedulerServer) mustEmbedUnimplementedEventSchedulerServer() {}
 func (UnimplementedEventSchedulerServer) testEmbeddedByValue()                        {}
@@ -108,6 +124,24 @@ func _EventScheduler_HealthCheck_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _EventScheduler_SetEvent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Event)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(EventSchedulerServer).SetEvent(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: EventScheduler_SetEvent_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(EventSchedulerServer).SetEvent(ctx, req.(*Event))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // EventScheduler_ServiceDesc is the grpc.ServiceDesc for EventScheduler service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -118,6 +152,10 @@ var EventScheduler_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "HealthCheck",
 			Handler:    _EventScheduler_HealthCheck_Handler,
+		},
+		{
+			MethodName: "SetEvent",
+			Handler:    _EventScheduler_SetEvent_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

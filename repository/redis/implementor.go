@@ -19,7 +19,7 @@ type RedisClient struct {
 }
 
 // SetEvent implements repoiface.Redis.
-func (c *RedisClient) SetEvent(ctx context.Context, event model.Event, indexKey string, triggerKey string, dataKey string, releaseEvent time.Duration) error {
+func (c *RedisClient) SetEvent(ctx context.Context, event model.Event, indexKey string, triggerKey string, dataKey string, releaseEvent time.Time) error {
 	panic("unimplemented")
 }
 

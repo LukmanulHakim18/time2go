@@ -21,6 +21,55 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type RetryPolicyType int32
+
+const (
+	RetryPolicyType_RETRY_POLICY_TYPE_UNSPECIFIED RetryPolicyType = 0
+	RetryPolicyType_FIXED                         RetryPolicyType = 1
+	RetryPolicyType_EXPONENTIAL                   RetryPolicyType = 2
+)
+
+// Enum value maps for RetryPolicyType.
+var (
+	RetryPolicyType_name = map[int32]string{
+		0: "RETRY_POLICY_TYPE_UNSPECIFIED",
+		1: "FIXED",
+		2: "EXPONENTIAL",
+	}
+	RetryPolicyType_value = map[string]int32{
+		"RETRY_POLICY_TYPE_UNSPECIFIED": 0,
+		"FIXED":                         1,
+		"EXPONENTIAL":                   2,
+	}
+)
+
+func (x RetryPolicyType) Enum() *RetryPolicyType {
+	p := new(RetryPolicyType)
+	*p = x
+	return p
+}
+
+func (x RetryPolicyType) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (RetryPolicyType) Descriptor() protoreflect.EnumDescriptor {
+	return file_contract_time2go_proto_enumTypes[0].Descriptor()
+}
+
+func (RetryPolicyType) Type() protoreflect.EnumType {
+	return &file_contract_time2go_proto_enumTypes[0]
+}
+
+func (x RetryPolicyType) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use RetryPolicyType.Descriptor instead.
+func (RetryPolicyType) EnumDescriptor() ([]byte, []int) {
+	return file_contract_time2go_proto_rawDescGZIP(), []int{0}
+}
+
 type EmptyRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
@@ -109,6 +158,318 @@ func (x *DefaultResponse) GetMessage() string {
 	return ""
 }
 
+type BasicAuthConfig struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Username      string                 `protobuf:"bytes,1,opt,name=username,proto3" json:"username,omitempty"`
+	Password      string                 `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *BasicAuthConfig) Reset() {
+	*x = BasicAuthConfig{}
+	mi := &file_contract_time2go_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *BasicAuthConfig) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BasicAuthConfig) ProtoMessage() {}
+
+func (x *BasicAuthConfig) ProtoReflect() protoreflect.Message {
+	mi := &file_contract_time2go_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BasicAuthConfig.ProtoReflect.Descriptor instead.
+func (*BasicAuthConfig) Descriptor() ([]byte, []int) {
+	return file_contract_time2go_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *BasicAuthConfig) GetUsername() string {
+	if x != nil {
+		return x.Username
+	}
+	return ""
+}
+
+func (x *BasicAuthConfig) GetPassword() string {
+	if x != nil {
+		return x.Password
+	}
+	return ""
+}
+
+type HTTPRequestConfig struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Method        string                 `protobuf:"bytes,1,opt,name=method,proto3" json:"method,omitempty"`
+	Url           string                 `protobuf:"bytes,2,opt,name=url,proto3" json:"url,omitempty"`
+	Headers       map[string]string      `protobuf:"bytes,3,rep,name=headers,proto3" json:"headers,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	QueryParams   map[string]string      `protobuf:"bytes,4,rep,name=query_params,json=queryParams,proto3" json:"query_params,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	Body          []byte                 `protobuf:"bytes,5,opt,name=body,proto3" json:"body,omitempty"`
+	Timeout       string                 `protobuf:"bytes,6,opt,name=timeout,proto3" json:"timeout,omitempty"`
+	Auth          *BasicAuthConfig       `protobuf:"bytes,7,opt,name=auth,proto3" json:"auth,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *HTTPRequestConfig) Reset() {
+	*x = HTTPRequestConfig{}
+	mi := &file_contract_time2go_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *HTTPRequestConfig) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*HTTPRequestConfig) ProtoMessage() {}
+
+func (x *HTTPRequestConfig) ProtoReflect() protoreflect.Message {
+	mi := &file_contract_time2go_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use HTTPRequestConfig.ProtoReflect.Descriptor instead.
+func (*HTTPRequestConfig) Descriptor() ([]byte, []int) {
+	return file_contract_time2go_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *HTTPRequestConfig) GetMethod() string {
+	if x != nil {
+		return x.Method
+	}
+	return ""
+}
+
+func (x *HTTPRequestConfig) GetUrl() string {
+	if x != nil {
+		return x.Url
+	}
+	return ""
+}
+
+func (x *HTTPRequestConfig) GetHeaders() map[string]string {
+	if x != nil {
+		return x.Headers
+	}
+	return nil
+}
+
+func (x *HTTPRequestConfig) GetQueryParams() map[string]string {
+	if x != nil {
+		return x.QueryParams
+	}
+	return nil
+}
+
+func (x *HTTPRequestConfig) GetBody() []byte {
+	if x != nil {
+		return x.Body
+	}
+	return nil
+}
+
+func (x *HTTPRequestConfig) GetTimeout() string {
+	if x != nil {
+		return x.Timeout
+	}
+	return ""
+}
+
+func (x *HTTPRequestConfig) GetAuth() *BasicAuthConfig {
+	if x != nil {
+		return x.Auth
+	}
+	return nil
+}
+
+type RetryPolicy struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Type          RetryPolicyType        `protobuf:"varint,1,opt,name=type,proto3,enum=time2go.RetryPolicyType" json:"type,omitempty"`
+	RetryCount    int32                  `protobuf:"varint,2,opt,name=retry_count,json=retryCount,proto3" json:"retry_count,omitempty"`
+	MaxAttempts   int32                  `protobuf:"varint,3,opt,name=max_attempts,json=maxAttempts,proto3" json:"max_attempts,omitempty"`
+	AttemptCount  int32                  `protobuf:"varint,4,opt,name=attempt_count,json=attemptCount,proto3" json:"attempt_count,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RetryPolicy) Reset() {
+	*x = RetryPolicy{}
+	mi := &file_contract_time2go_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RetryPolicy) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RetryPolicy) ProtoMessage() {}
+
+func (x *RetryPolicy) ProtoReflect() protoreflect.Message {
+	mi := &file_contract_time2go_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RetryPolicy.ProtoReflect.Descriptor instead.
+func (*RetryPolicy) Descriptor() ([]byte, []int) {
+	return file_contract_time2go_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *RetryPolicy) GetType() RetryPolicyType {
+	if x != nil {
+		return x.Type
+	}
+	return RetryPolicyType_RETRY_POLICY_TYPE_UNSPECIFIED
+}
+
+func (x *RetryPolicy) GetRetryCount() int32 {
+	if x != nil {
+		return x.RetryCount
+	}
+	return 0
+}
+
+func (x *RetryPolicy) GetMaxAttempts() int32 {
+	if x != nil {
+		return x.MaxAttempts
+	}
+	return 0
+}
+
+func (x *RetryPolicy) GetAttemptCount() int32 {
+	if x != nil {
+		return x.AttemptCount
+	}
+	return 0
+}
+
+type Event struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ClientName    string                 `protobuf:"bytes,1,opt,name=client_name,json=clientName,proto3" json:"client_name,omitempty"`
+	EventName     string                 `protobuf:"bytes,2,opt,name=event_name,json=eventName,proto3" json:"event_name,omitempty"`
+	EventId       string                 `protobuf:"bytes,3,opt,name=event_id,json=eventId,proto3" json:"event_id,omitempty"`
+	ScheduleAt    string                 `protobuf:"bytes,4,opt,name=schedule_at,json=scheduleAt,proto3" json:"schedule_at,omitempty"` // time.RFC3339
+	Status        string                 `protobuf:"bytes,5,opt,name=status,proto3" json:"status,omitempty"`
+	LastError     string                 `protobuf:"bytes,6,opt,name=last_error,json=lastError,proto3" json:"last_error,omitempty"`
+	RequestConfig *HTTPRequestConfig     `protobuf:"bytes,7,opt,name=request_config,json=requestConfig,proto3" json:"request_config,omitempty"`
+	RetryPolicy   *RetryPolicy           `protobuf:"bytes,8,opt,name=retry_policy,json=retryPolicy,proto3" json:"retry_policy,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Event) Reset() {
+	*x = Event{}
+	mi := &file_contract_time2go_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Event) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Event) ProtoMessage() {}
+
+func (x *Event) ProtoReflect() protoreflect.Message {
+	mi := &file_contract_time2go_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Event.ProtoReflect.Descriptor instead.
+func (*Event) Descriptor() ([]byte, []int) {
+	return file_contract_time2go_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *Event) GetClientName() string {
+	if x != nil {
+		return x.ClientName
+	}
+	return ""
+}
+
+func (x *Event) GetEventName() string {
+	if x != nil {
+		return x.EventName
+	}
+	return ""
+}
+
+func (x *Event) GetEventId() string {
+	if x != nil {
+		return x.EventId
+	}
+	return ""
+}
+
+func (x *Event) GetScheduleAt() string {
+	if x != nil {
+		return x.ScheduleAt
+	}
+	return ""
+}
+
+func (x *Event) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+func (x *Event) GetLastError() string {
+	if x != nil {
+		return x.LastError
+	}
+	return ""
+}
+
+func (x *Event) GetRequestConfig() *HTTPRequestConfig {
+	if x != nil {
+		return x.RequestConfig
+	}
+	return nil
+}
+
+func (x *Event) GetRetryPolicy() *RetryPolicy {
+	if x != nil {
+		return x.RetryPolicy
+	}
+	return nil
+}
+
 var File_contract_time2go_proto protoreflect.FileDescriptor
 
 const file_contract_time2go_proto_rawDesc = "" +
@@ -117,9 +478,50 @@ const file_contract_time2go_proto_rawDesc = "" +
 	"\fEmptyRequest\"?\n" +
 	"\x0fDefaultResponse\x12\x12\n" +
 	"\x04code\x18\x01 \x01(\tR\x04code\x12\x18\n" +
-	"\amessage\x18\x02 \x01(\tR\amessage2P\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\"I\n" +
+	"\x0fBasicAuthConfig\x12\x1a\n" +
+	"\busername\x18\x01 \x01(\tR\busername\x12\x1a\n" +
+	"\bpassword\x18\x02 \x01(\tR\bpassword\"\xa8\x03\n" +
+	"\x11HTTPRequestConfig\x12\x16\n" +
+	"\x06method\x18\x01 \x01(\tR\x06method\x12\x10\n" +
+	"\x03url\x18\x02 \x01(\tR\x03url\x12A\n" +
+	"\aheaders\x18\x03 \x03(\v2'.time2go.HTTPRequestConfig.HeadersEntryR\aheaders\x12N\n" +
+	"\fquery_params\x18\x04 \x03(\v2+.time2go.HTTPRequestConfig.QueryParamsEntryR\vqueryParams\x12\x12\n" +
+	"\x04body\x18\x05 \x01(\fR\x04body\x12\x18\n" +
+	"\atimeout\x18\x06 \x01(\tR\atimeout\x12,\n" +
+	"\x04auth\x18\a \x01(\v2\x18.time2go.BasicAuthConfigR\x04auth\x1a:\n" +
+	"\fHeadersEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\x1a>\n" +
+	"\x10QueryParamsEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xa4\x01\n" +
+	"\vRetryPolicy\x12,\n" +
+	"\x04type\x18\x01 \x01(\x0e2\x18.time2go.RetryPolicyTypeR\x04type\x12\x1f\n" +
+	"\vretry_count\x18\x02 \x01(\x05R\n" +
+	"retryCount\x12!\n" +
+	"\fmax_attempts\x18\x03 \x01(\x05R\vmaxAttempts\x12#\n" +
+	"\rattempt_count\x18\x04 \x01(\x05R\fattemptCount\"\xb6\x02\n" +
+	"\x05Event\x12\x1f\n" +
+	"\vclient_name\x18\x01 \x01(\tR\n" +
+	"clientName\x12\x1d\n" +
+	"\n" +
+	"event_name\x18\x02 \x01(\tR\teventName\x12\x19\n" +
+	"\bevent_id\x18\x03 \x01(\tR\aeventId\x12\x1f\n" +
+	"\vschedule_at\x18\x04 \x01(\tR\n" +
+	"scheduleAt\x12\x16\n" +
+	"\x06status\x18\x05 \x01(\tR\x06status\x12\x1d\n" +
+	"\n" +
+	"last_error\x18\x06 \x01(\tR\tlastError\x12A\n" +
+	"\x0erequest_config\x18\a \x01(\v2\x1a.time2go.HTTPRequestConfigR\rrequestConfig\x127\n" +
+	"\fretry_policy\x18\b \x01(\v2\x14.time2go.RetryPolicyR\vretryPolicy*P\n" +
+	"\x0fRetryPolicyType\x12!\n" +
+	"\x1dRETRY_POLICY_TYPE_UNSPECIFIED\x10\x00\x12\t\n" +
+	"\x05FIXED\x10\x01\x12\x0f\n" +
+	"\vEXPONENTIAL\x10\x022\x86\x01\n" +
 	"\x0eEventScheduler\x12>\n" +
-	"\vHealthCheck\x12\x15.time2go.EmptyRequest\x1a\x18.time2go.DefaultResponseB-Z+github.com/LukmanulHakim18/time2go/contractb\x06proto3"
+	"\vHealthCheck\x12\x15.time2go.EmptyRequest\x1a\x18.time2go.DefaultResponse\x124\n" +
+	"\bSetEvent\x12\x0e.time2go.Event\x1a\x18.time2go.DefaultResponseB-Z+github.com/LukmanulHakim18/time2go/contractb\x06proto3"
 
 var (
 	file_contract_time2go_proto_rawDescOnce sync.Once
@@ -133,19 +535,35 @@ func file_contract_time2go_proto_rawDescGZIP() []byte {
 	return file_contract_time2go_proto_rawDescData
 }
 
-var file_contract_time2go_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_contract_time2go_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_contract_time2go_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_contract_time2go_proto_goTypes = []any{
-	(*EmptyRequest)(nil),    // 0: time2go.EmptyRequest
-	(*DefaultResponse)(nil), // 1: time2go.DefaultResponse
+	(RetryPolicyType)(0),      // 0: time2go.RetryPolicyType
+	(*EmptyRequest)(nil),      // 1: time2go.EmptyRequest
+	(*DefaultResponse)(nil),   // 2: time2go.DefaultResponse
+	(*BasicAuthConfig)(nil),   // 3: time2go.BasicAuthConfig
+	(*HTTPRequestConfig)(nil), // 4: time2go.HTTPRequestConfig
+	(*RetryPolicy)(nil),       // 5: time2go.RetryPolicy
+	(*Event)(nil),             // 6: time2go.Event
+	nil,                       // 7: time2go.HTTPRequestConfig.HeadersEntry
+	nil,                       // 8: time2go.HTTPRequestConfig.QueryParamsEntry
 }
 var file_contract_time2go_proto_depIdxs = []int32{
-	0, // 0: time2go.EventScheduler.HealthCheck:input_type -> time2go.EmptyRequest
-	1, // 1: time2go.EventScheduler.HealthCheck:output_type -> time2go.DefaultResponse
-	1, // [1:2] is the sub-list for method output_type
-	0, // [0:1] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	7, // 0: time2go.HTTPRequestConfig.headers:type_name -> time2go.HTTPRequestConfig.HeadersEntry
+	8, // 1: time2go.HTTPRequestConfig.query_params:type_name -> time2go.HTTPRequestConfig.QueryParamsEntry
+	3, // 2: time2go.HTTPRequestConfig.auth:type_name -> time2go.BasicAuthConfig
+	0, // 3: time2go.RetryPolicy.type:type_name -> time2go.RetryPolicyType
+	4, // 4: time2go.Event.request_config:type_name -> time2go.HTTPRequestConfig
+	5, // 5: time2go.Event.retry_policy:type_name -> time2go.RetryPolicy
+	1, // 6: time2go.EventScheduler.HealthCheck:input_type -> time2go.EmptyRequest
+	6, // 7: time2go.EventScheduler.SetEvent:input_type -> time2go.Event
+	2, // 8: time2go.EventScheduler.HealthCheck:output_type -> time2go.DefaultResponse
+	2, // 9: time2go.EventScheduler.SetEvent:output_type -> time2go.DefaultResponse
+	8, // [8:10] is the sub-list for method output_type
+	6, // [6:8] is the sub-list for method input_type
+	6, // [6:6] is the sub-list for extension type_name
+	6, // [6:6] is the sub-list for extension extendee
+	0, // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_contract_time2go_proto_init() }
@@ -158,13 +576,14 @@ func file_contract_time2go_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_contract_time2go_proto_rawDesc), len(file_contract_time2go_proto_rawDesc)),
-			NumEnums:      0,
-			NumMessages:   2,
+			NumEnums:      1,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_contract_time2go_proto_goTypes,
 		DependencyIndexes: file_contract_time2go_proto_depIdxs,
+		EnumInfos:         file_contract_time2go_proto_enumTypes,
 		MessageInfos:      file_contract_time2go_proto_msgTypes,
 	}.Build()
 	File_contract_time2go_proto = out.File

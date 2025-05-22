@@ -68,6 +68,17 @@
         }
       }
     },
+    "time2goBasicAuthConfig": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
     "time2goDefaultResponse": {
       "type": "object",
       "properties": {
@@ -78,6 +89,68 @@
           "type": "string"
         }
       }
+    },
+    "time2goHTTPRequestConfig": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "headers": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "queryParams": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "body": {
+          "type": "string",
+          "format": "byte"
+        },
+        "timeout": {
+          "type": "string"
+        },
+        "auth": {
+          "$ref": "#/definitions/time2goBasicAuthConfig"
+        }
+      }
+    },
+    "time2goRetryPolicy": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/time2goRetryPolicyType"
+        },
+        "retryCount": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "maxAttempts": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "attemptCount": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "time2goRetryPolicyType": {
+      "type": "string",
+      "enum": [
+        "RETRY_POLICY_TYPE_UNSPECIFIED",
+        "FIXED",
+        "EXPONENTIAL"
+      ],
+      "default": "RETRY_POLICY_TYPE_UNSPECIFIED"
     }
   }
 }

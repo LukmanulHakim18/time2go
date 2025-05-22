@@ -6,6 +6,7 @@ option go_package = "github.com/LukmanulHakim18/time2go/contract";
 //lib-type:"grpc-client"
 service EventScheduler {
   rpc HealthCheck(EmptyRequest) returns (DefaultResponse); 
+  rpc SetEvent(Event)returns(DefaultResponse); //interceptors:"validateMetadata" 
 }
 
 message EmptyRequest{}
@@ -13,4 +14,43 @@ message EmptyRequest{}
 message DefaultResponse {
   string code = 1;
   string message = 2;
+}
+
+message BasicAuthConfig {
+  string username = 1;
+  string password = 2;
+}
+
+message HTTPRequestConfig {
+  string method = 1;
+  string url = 2;
+  map<string, string> headers = 3;
+  map<string, string> query_params = 4;
+  bytes body = 5;
+  string timeout = 6;
+  BasicAuthConfig auth = 7;
+}
+
+enum RetryPolicyType {
+  RETRY_POLICY_TYPE_UNSPECIFIED = 0;
+  FIXED = 1;
+  EXPONENTIAL = 2;
+}
+
+message RetryPolicy {
+  RetryPolicyType type = 1;
+  int32 retry_count = 2;
+  int32 max_attempts = 3;
+  int32 attempt_count = 4;
+}
+
+message Event {
+  string client_name = 1;
+  string event_name = 2;
+  string event_id = 3;
+  string schedule_at = 4; // time.RFC3339
+  string status = 5;
+  string last_error = 6;
+  HTTPRequestConfig request_config = 7;
+  RetryPolicy retry_policy = 8;
 }

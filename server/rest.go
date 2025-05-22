@@ -13,8 +13,8 @@ import (
 	"github.com/LukmanulHakim18/time2go/transport"
 	"github.com/LukmanulHakim18/time2go/usecase"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"go.elastic.co/apm/module/apmhttp/v2"
-  "github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 func RunRESTServer(ctx context.Context, usecase *usecase.UseCase) *http.Server {
@@ -44,13 +44,13 @@ func RunRESTServer(ctx context.Context, usecase *usecase.UseCase) *http.Server {
 			pprof.Index(w, r)
 		}
 	})
-  gwMux.HandlePath("GET", "/metrics", func(w http.ResponseWriter, r *http.Request, pathParams map[string]string) {
-	  promhttp.Handler().ServeHTTP(w, r)
-  })
+	gwMux.HandlePath("GET", "/metrics", func(w http.ResponseWriter, r *http.Request, pathParams map[string]string) {
+		promhttp.Handler().ServeHTTP(w, r)
+	})
 
-  metricMiddleware := NewMetricMiddleware()
+	metricMiddleware := NewMetricMiddleware()
 
-  restServer := &http.Server{
+	restServer := &http.Server{
 		Addr:    "localhost" + restPort,
 		Handler: metricMiddleware.PrometheusHTTPMiddleware(apmhttp.Wrap(gwMux)),
 	}

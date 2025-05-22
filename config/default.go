@@ -9,11 +9,11 @@ import (
 var appConfig map[string]commonConfig.Value
 
 var defaultConfig = map[string]interface{}{
-	"app_name":      "time2go",
-	"grpc_port":     6000,
-	"rest_port":     8000,
-	"log_level":     "info",
-	"log_directory": "",
+	"app_name":           "time2go",
+	"grpc_port":          6000,
+	"rest_port":          8000,
+	"log_level":          "info",
+	"log_directory":      "",
 	"check_healthy_repo": true,
 
 	"pubsub_emulator_host_port": "",
@@ -21,11 +21,11 @@ var defaultConfig = map[string]interface{}{
 	"pubsub_project_id":         "",
 	"pod_name":                  "unknown pod",
 
-	"redis_host":         "",
-	"redis_port":         0,
-	"redis_password":     "",
-	"db_use":             5,
-	
+	"redis_host":     "",
+	"redis_port":     0,
+	"redis_password": "",
+	"db_use":         5,
+
 	"worker_count": 10,
 	"queue_size":   100,
 
