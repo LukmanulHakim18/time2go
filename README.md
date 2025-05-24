@@ -1,11 +1,16 @@
-<p align="center">
-  <img src="t2g-logo.jpeg" width="200"/>
-</p>
-
-<h1 align="center">Time2Go</h1>
-<p align="center">⏱️ Time-based event scheduler with HTTP trigger and retry mechanism</p>
-
-# Time2Go
+<table>
+   <tr>
+      <td width=30%>
+         <p align="center">
+            <img src="t2g-logo.png" width="200"/>
+         </p>
+      </td>
+      <td>
+         <h1 align="left">Time2Go</h1>
+         <p align="left">⏱️ Time-based event scheduler with HTTP trigger and retry mechanism</p>
+      </td>
+   </tr>
+</table>
 
 **Time2Go** is a lightweight time-based event scheduling system that automatically executes HTTP requests. It's ideal for recurring API triggers, delayed webhooks, or automated reminders. Time2Go supports retry policies, basic authentication, and temporary storage using Redis.
 
