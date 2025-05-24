@@ -46,7 +46,7 @@
     }
   },
   "retry_policy": {
-    "type": 1, // 1 : Fixed, 2 : Exponential/Users/lukmanulhakim/Downloads/WhatsApp Image 2025-05-13 at 07.55.46.jpeg
+    "type": 1, // 1 : Fixed, 2 : Exponential
     "retry_count": 5,
     "max_attempts": 5,
     "attempt_count": 0
