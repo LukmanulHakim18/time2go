@@ -5,3 +5,6 @@ http:
   rules:
     - selector: time2go.EventScheduler.HealthCheck
       get: /
+    - selector: time2go.EventScheduler.SetEvent
+      post: /event
+      body: "*"

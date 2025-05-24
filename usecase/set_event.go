@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"context"
+	"time"
 
 	cLog "github.com/LukmanulHakim18/core/logger"
 	"github.com/LukmanulHakim18/time2go/config/logger"
@@ -21,10 +22,12 @@ func (u *UseCase) SetEvent(ctx context.Context, request *contract.Event) (respon
 	indexKey := event.GetIndexKey()
 	triggerKey := event.GetTriggerKey()
 	dataKey := event.GetDataKey()
-	if err = u.Repo.Redis.SetEvent(ctx, event, indexKey, triggerKey, dataKey, event.ScheduleAt); err != nil {
+	releaseDuration := time.Until(event.ScheduleAt)
+	if err = u.Repo.Redis.SetEvent(ctx, event, indexKey, triggerKey, dataKey, releaseDuration); err != nil {
 		logData["err"] = err.Error()
 		logger.GetLogger().Error("error.redis.setEvent", cLog.ConvertMapToFields(logData)...)
 		return nil, err
 	}
+	logger.GetLogger().Info("success", cLog.ConvertMapToFields(logData)...)
 	return contract.GetDefaultResponse(ctx, "success create event", "berhasil menyimpan event"), nil
 }

@@ -48,6 +48,7 @@ func (conf *RedisConfig) Init(r *repository.Repository) error {
 	redisClient := &RedisClient{
 		cliIndex: cli,
 		cliMap:   make(map[int]cRedis.ClientRedis, conf.dbUse),
+		maxDbUse: conf.dbUse,
 	}
 
 	// init db use for optimization

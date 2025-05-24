@@ -3,7 +3,6 @@ package httpcaller
 import (
 	"bytes"
 	"context"
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -41,15 +40,16 @@ func (*HttpCallerClient) buildRequest(e model.HTTPRequestConfig) (*http.Request,
 	}
 	u.RawQuery = q.Encode()
 
-	var bodyBytes []byte
-	if e.Body != nil {
-		bodyBytes, err = json.Marshal(e.Body)
-		if err != nil {
-			return nil, fmt.Errorf("failed to marshal body: %w", err)
-		}
-	}
+	// var bodyBytes []byte
+	// if e.Body != nil {
 
-	req, err := http.NewRequest(e.Method, u.String(), bytes.NewBuffer(bodyBytes))
+	// 	bodyBytes, err = json.Marshal(e.Body)
+	// 	if err != nil {
+	// 		return nil, fmt.Errorf("failed to marshal body: %w", err)
+	// 	}
+	// }
+
+	req, err := http.NewRequest(e.Method, u.String(), bytes.NewBuffer(e.Body))
 	if err != nil {
 		return nil, fmt.Errorf("failed to build request: %w", err)
 	}

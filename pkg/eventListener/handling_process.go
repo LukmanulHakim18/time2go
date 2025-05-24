@@ -57,13 +57,14 @@ func (rl *EventListener) processEvent(ctx context.Context, dbFrom int, event mod
 		"method": "processEvent",
 		"event":  event,
 	}
-	dataKey := ""
-	// lock event
-
-	rl.repository.Redis.LockEventFromDb(ctx, dbFrom, dataKey)
+	// lock process
+	defer rl.repository.Redis.UnlockEventFromDb(ctx, dbFrom, event.GetLockKey())
+	rl.repository.Redis.LockEventFromDb(ctx, dbFrom, event.GetDataKey())
 	logger.GetLogger().Debug("process_event", cLog.Field{Key: "event", Value: event})
-	// execute event
+	// Del event
+	_ = rl.repository.Redis.DeleteEvent(ctx, dbFrom, event.GetIndexKey(), event.GetDataKey())
 
+	// execute event
 	resp, err := rl.repository.HttpCaller.ExecuteEvent(ctx, event.RequestConfig)
 	logData["resp"] = resp
 	if err != nil {
@@ -72,5 +73,4 @@ func (rl *EventListener) processEvent(ctx context.Context, dbFrom int, event mod
 	logger.GetLogger().Info("success", cLog.ConvertMapToFields(logData)...)
 
 	// handling process retry
-	_ = rl.repository.Redis.DeleteFromDb(ctx, dbFrom, dataKey)
 }

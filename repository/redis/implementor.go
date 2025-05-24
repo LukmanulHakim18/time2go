@@ -3,6 +3,7 @@ package redis
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"strconv"
 	"time"
 
@@ -18,19 +19,84 @@ type RedisClient struct {
 	cliMap   map[int]cRedis.ClientRedis
 }
 
-// SetEvent implements repoiface.Redis.
-func (c *RedisClient) SetEvent(ctx context.Context, event model.Event, indexKey string, triggerKey string, dataKey string, releaseEvent time.Time) error {
-	panic("unimplemented")
+// DeleteEvent implements repoiface.Redis.
+func (c *RedisClient) DeleteEvent(ctx context.Context,dbFrom int, indexKey string, dataKey string) (err error) {
+	var (
+		cliData, ok = c.cliMap[c.dbIndex]
+	)
+	if !ok {
+		return fmt.Errorf("error db index")
+	}
+
+	// Del index
+	err = c.cliIndex.Client().Del(ctx, indexKey).Err()
+	if err != nil {
+		return err
+	}
+
+	// Del data
+	if err := cliData.Client().Del(ctx, dataKey).Err(); err != nil {
+		return err
+	}
+
+	return nil
 }
 
-// DeleteFromDb implements repoiface.Redis.
-func (c *RedisClient) DeleteFromDb(ctx context.Context, dbFrom int, dataKey string) error {
-	panic("unimplemented")
+// SetEvent implements repoiface.Redis.
+func (c *RedisClient) SetEvent(ctx context.Context, event model.Event, indexKey string, triggerKey string, dataKey string, releaseEvent time.Duration) (err error) {
+	var (
+		dbIndex     = c.IncKeyIndex(ctx)
+		cliData, ok = c.cliMap[c.dbIndex]
+		eventByte   []byte
+	)
+	if !ok {
+		return fmt.Errorf("error db index")
+	}
+
+	if eventByte, err = json.Marshal(event); err != nil {
+		return err
+	}
+
+	// set index
+	ok, err = c.cliIndex.Client().SetNX(ctx, indexKey, dbIndex, releaseEvent).Result()
+	if err != nil {
+		return err
+	}
+	if !ok {
+		return fmt.Errorf("event already exist")
+	}
+	// setTrigger
+	if err := cliData.Client().Set(ctx, triggerKey, "trigger event", releaseEvent).Err(); err != nil {
+		return err
+	}
+
+	if err := cliData.Client().Set(ctx, dataKey, eventByte, releaseEvent+(5*time.Minute)).Err(); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // LockEventFromDb implements repoiface.Redis.
-func (c *RedisClient) LockEventFromDb(ctx context.Context, dbFrom int, dataKey string) error {
-	panic("unimplemented")
+func (c *RedisClient) LockEventFromDb(ctx context.Context, dbFrom int, lockKey string) error {
+	var (
+		cliData, ok = c.cliMap[dbFrom]
+	)
+	if !ok {
+		return fmt.Errorf("error db index")
+	}
+	return cliData.Client().SetNX(ctx, lockKey, "on-process-call", time.Second*5).Err()
+}
+
+// LockEventFromDb implements repoiface.Redis.
+func (c *RedisClient) UnlockEventFromDb(ctx context.Context, dbFrom int, lockKey string) error {
+	var (
+		cliData, ok = c.cliMap[dbFrom]
+	)
+	if !ok {
+		return fmt.Errorf("error db index")
+	}
+	return cliData.Client().Del(ctx, lockKey).Err()
 }
 
 // GetDataFromDb implements repoiface.Redis.
@@ -54,12 +120,13 @@ func (c *RedisClient) HealthCheck(ctx context.Context) error {
 	return c.cliIndex.Ping()
 }
 
-func (c *RedisClient) IncKeyIndex(ctx context.Context) {
-	if c.dbIndex == c.maxDbUse {
+func (c *RedisClient) IncKeyIndex(ctx context.Context) int32 {
+	if c.dbIndex >= c.maxDbUse {
 		c.dbIndex = 1
 	} else {
-		c.dbIndex++
+			c.dbIndex++
 	}
+	return int32(c.dbIndex)
 }
 
 func (c *RedisClient) GetListOfListener(ctx context.Context) map[int]*redis.PubSub {

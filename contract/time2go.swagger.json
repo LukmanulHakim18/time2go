@@ -37,6 +37,39 @@
           "EventScheduler"
         ]
       }
+    },
+    "/event": {
+      "post": {
+        "summary": "interceptors:\"validateMetadata\"",
+        "operationId": "EventScheduler_SetEvent",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/time2goDefaultResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/time2goEvent"
+            }
+          }
+        ],
+        "tags": [
+          "EventScheduler"
+        ]
+      }
     }
   },
   "definitions": {
@@ -87,6 +120,36 @@
         },
         "message": {
           "type": "string"
+        }
+      }
+    },
+    "time2goEvent": {
+      "type": "object",
+      "properties": {
+        "clientName": {
+          "type": "string"
+        },
+        "eventName": {
+          "type": "string"
+        },
+        "eventId": {
+          "type": "string"
+        },
+        "scheduleAt": {
+          "type": "string",
+          "title": "time.RFC3339"
+        },
+        "status": {
+          "type": "string"
+        },
+        "lastError": {
+          "type": "string"
+        },
+        "requestConfig": {
+          "$ref": "#/definitions/time2goHTTPRequestConfig"
+        },
+        "retryPolicy": {
+          "$ref": "#/definitions/time2goRetryPolicy"
         }
       }
     },

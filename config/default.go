@@ -10,6 +10,7 @@ var appConfig map[string]commonConfig.Value
 
 var defaultConfig = map[string]interface{}{
 	"app_name":           "time2go",
+	"app_code":           "t2g",
 	"grpc_port":          6000,
 	"rest_port":          8000,
 	"log_level":          "info",
